@@ -1,0 +1,217 @@
+% ============================================================
+%   天津大学操作系统原理实验报告 LaTeX 模板
+%   版本: 1.0
+%   适用对象: 天津大学本科生 / 操作系统课程实验
+%   编译方式: 请务必使用 XeLaTeX 编译器 (推荐 Overleaf 或 TeXStudio)
+% ============================================================
+
+\documentclass[a4paper,12pt]{ctexart} 
+% 说明：使用 ctexart 文档类可以自动处理中文支持，无需额外配置 xeCJK
+% a4paper: 纸张大小 A4
+% 12pt:    正文字号 12磅 (符合一般实验报告要求)
+
+% --- 1. 宏包引用 (Preamble) ---
+% 这里引入了各种功能包，就像给 Word 安装插件一样
+
+\usepackage{geometry}           % 页面布局设置
+\usepackage{titlesec}           % 自定义标题格式
+\usepackage{fancyhdr}           % 自定义页眉页脚
+\usepackage{graphicx}           % 插入图片
+\usepackage{listings}           % 插入代码高亮 (写实验代码必备)
+\usepackage{xcolor}             % 颜色支持
+\usepackage{hyperref}           % 超链接与目录跳转
+\hypersetup{hidelinks}          % 隐藏链接边框与颜色（目录不再出现红框）
+\usepackage{tocloft}            % 目录格式微调
+\renewcommand{\cfttoctitlefont}{\hfill\Large\bfseries} % 目录标题居中
+\renewcommand{\cftaftertoctitle}{\hfill}
+\newlength{\infolinewidth}
+\setlength{\infolinewidth}{8cm} % 统一控制信息栏横线长度
+\newlength{\infolabelwidth}
+\setlength{\infolabelwidth}{4.8em} % 统一控制信息栏左侧标签宽度
+\newcommand{\infolabel}[1]{\makebox[\infolabelwidth][l]{\large\textbf{#1}}}
+\newcommand{\infolabelsplit}[2]{\makebox[\infolabelwidth][l]{\large\textbf{#1\hfill#2}}}
+
+% --- 2. 页面设置 ---
+\geometry{left=2.0cm, right=2.0cm, top=2.5cm, bottom=2.5cm}
+% 说明：设置页边距，这里设置为标准的 2.5厘米
+\setlength{\headheight}{15pt} % 避免 fancyhdr 的 headheight 警告
+
+% --- 3. 代码高亮设置 (可选) ---
+% 如果你需要贴代码，这个设置会让代码更好看
+\lstset{
+    language=C,                 % 默认语言为 C (操作系统实验常用)
+    basicstyle=\ttfamily\small, % 代码字体
+    keywordstyle=\color{blue},  % 关键字颜色
+    commentstyle=\color{gray},  % 注释颜色
+    frame=tb,                   % 代码框样式 (顶部和底部横线)
+    breaklines=true,            % 自动换行
+    numbers=left,               % 显示行号
+    numberstyle=\tiny\color{gray} % 行号样式
+}
+
+% --- 4. 标题格式调整 ---
+% 让一级标题 (如 "一、实验目的") 左对齐
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+% 让二级标题 (如 "1. 算法描述") 左对齐
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% --- 5. 文档开始 ---
+\begin{document}
+
+% 封面单独使用更大的上边距，正文恢复默认页边距
+\newgeometry{left=2.5cm, right=2.5cm, top=5cm, bottom=2.5cm}
+
+% ============================================================
+%   封面部分 (Cover Page)
+%   修改提示：请在这里修改你的个人信息
+% ============================================================
+
+\thispagestyle{empty} % 封面不显示页码
+
+\begin{center}
+    % \vspace{...} 用于控制垂直间距，数字越大空隙越大
+    \vspace*{0.5cm}
+    
+    % 学校名称 - 使用校徽图片
+    \includegraphics[width=0.36\textwidth]{TJU.png}
+    
+    \vspace{2.5cm}
+    
+    % 报告名称 - 更厚重的字形
+    {\fontsize{22pt}{26pt}\selectfont \heiti\bfseries 操作系统原理实验报告}
+
+    \vspace{1.6cm}
+
+    % 题目填写引导 - 左对齐
+    \begin{flushleft}
+        {\large \textbf{题目：}}\hspace{0.6em}{\large \textbf{请在此处填写实验题目}}
+    \end{flushleft}
+    
+    \vspace{4.2cm}
+    
+    % --- 个人信息表格 ---
+    % 说明：整块居中；标签后紧接粗横线；横线文字上移避免压线
+    \begin{minipage}{0.86\textwidth}
+        \raggedright
+        \setlength{\leftskip}{2cm}
+        \infolabel{学院名称}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{软件学院}}}}\\[0.9em]
+        \infolabelsplit{专}{业}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{软件工程}}}}\\[0.9em]
+        \infolabel{学生姓名}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{小鳄鱼}}}}\\[0.9em]
+        \infolabelsplit{学}{号}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{114514}}}}\\[0.9em]
+        \infolabelsplit{年}{级}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{2026级}}}}\\[0.9em]
+        \infolabelsplit{班}{级}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{1班}}}}\\[0.9em]
+        \infolabelsplit{时}{间}\hspace{0.2em}\makebox[\infolinewidth][l]{\rule[0.0ex]{\infolinewidth}{1.1pt}\hspace{-\infolinewidth}\makebox[\infolinewidth][c]{\raisebox{1.0ex}{\large \textbf{2026年3月29日}}}}
+    \end{minipage}
+\end{center}
+
+% --- 分页符 ---
+\newpage
+\restoregeometry
+
+% ============================================================
+%   目录部分 (Table of Contents)
+% ============================================================
+\tableofcontents
+\newpage
+
+% ============================================================
+%   正文部分 (Main Content)
+%   修改提示：从下面开始，删除示例文字，填入你的实验内容
+% ============================================================
+
+% --- 设置正文页眉页脚 ---
+\pagestyle{fancy}
+\fancyhf{} % 清空默认设置
+\renewcommand{\headrulewidth}{0pt} % 取消页眉横线
+\cfoot{\thepage} % 页码居中
+
+% --- 章节 1：实验名称 ---
+\section{实验名称}
+% 填写提示：简单写出本次实验的题目，例如“生产者-消费者问题”
+
+本次实验的名称是：在此处填写实验具体名称。
+
+% --- 章节 2：实验目的 ---
+\section{实验目的}
+% 填写提示：列出 2-3 点，说明通过这个实验你想学到什么
+\begin{itemize}
+    \item 理解操作系统中 [核心概念] 的基本原理。
+    \item 掌握 [某种算法] 的实现方法。
+    \item 熟悉 Linux 环境下的编程接口。
+\end{itemize}
+
+% --- 章节 3：实验内容 ---
+\section{实验内容}
+% 填写提示：描述实验的具体任务要求
+本实验主要包含以下内容：
+\begin{enumerate}
+    \item 设计并实现一个 [具体功能]。
+    \item 观察并记录 [某种现象]。
+    \item 分析实验数据，验证理论的正确性。
+\end{enumerate}
+
+% --- 章节 4：实验步骤 ---
+\section{实验步骤}
+% 填写提示：这是报告的核心部分。建议分步骤写，可以插入流程图或代码片段
+
+\subsection{环境准备}
+本次实验在 \textbf{Ubuntu 20.04} 环境下进行，使用 \textbf{GCC} 编译器。
+
+\subsection{核心算法设计}
+% 填写提示：你可以用文字描述你的思路，或者画流程图
+程序的主要逻辑如下：
+\begin{enumerate}
+    \item 初始化信号量...
+    \item 创建子进程...
+    \item 进入临界区...
+\end{enumerate}
+
+\subsection{代码实现}
+% 填写提示：使用 lstlisting 环境插入代码，看起来更专业
+关键代码片段如下所示：
+
+\begin{lstlisting}[language=C, caption={核心函数实现}]
+#include <stdio.h>
+#include <pthread.h>
+
+// define mutex
+pthread_mutex_t mutex;
+
+void* thread_func(void* arg) {
+    int i = 0;
+    pthread_mutex_lock(&mutex); // lock
+    i++;
+    pthread_mutex_unlock(&mutex); // unlock
+    return NULL;
+}
+\end{lstlisting}
+
+\subsection{运行与测试}
+% 填写提示：在这里贴上你的程序运行截图
+% 使用 \includegraphics 插入图片，width=0.8\textwidth 表示图片宽度占页面的 80%
+% 请确保你的文件夹里有名为 'screenshot.png' 的图片，或者修改文件名
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{example.jpg} % 如果没有图片，可以用这个占位
+    \caption{程序运行结果截图}
+    \label{fig:result}
+\end{figure}
+
+% --- 章节 5：实验分析 ---
+\section{实验分析}
+% 填写提示：不要只贴结果，要分析结果说明了什么。
+
+通过观察实验结果，我们发现：
+\begin{itemize}
+    \item 当并发量增加时，系统响应时间呈现 [某种趋势]。
+    \item 实验结果与理论值基本吻合，误差可能来源于 [系统负载]。
+\end{itemize}
+
+% --- 章节 6：实验结论及心得体会 ---
+\section{实验结论及心得体会}
+
+通过本次实验，我成功实现了 [实验目标]。
+
+在实验过程中，我遇到了 [具体Bug]，通过查阅资料/调试，我发现原因是 [原因]，最终通过 [方法] 解决了该问题。这次实验加深了我对操作系统 [知识点] 的理解。
+
+\end{document}
